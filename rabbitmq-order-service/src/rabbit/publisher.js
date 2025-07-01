@@ -1,14 +1,13 @@
-const amqp = require('amqplib');
-const QUEUE_NAME = process.env.QUEUE_NAME || 'order.created';
+const amqp = require("amqplib");
+const env = require("../config/env");
 
-async function publishOrder(order) {
-  const connection = await amqp.connect(process.env.RABBITMQ_URL);
+async function publishToQueue(queueName, message) {
+  const connection = await amqp.connect(env.rabbitmqUrl);
   const channel = await connection.createChannel();
-  await channel.assertQueue(QUEUE_NAME, { durable: false });
-  channel.sendToQueue(QUEUE_NAME, Buffer.from(JSON.stringify(order)));
-  setTimeout(() => {
-    connection.close();
-  }, 500);
+  await channel.assertQueue(queueName, { durable: true });
+  channel.sendToQueue(queueName, Buffer.from(JSON.stringify(message)));
+  await channel.close();
+  await connection.close();
 }
 
-module.exports = { publishOrder }; 
+module.exports = { publishToQueue };

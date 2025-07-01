@@ -1,39 +1,27 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const mongoose = require('mongoose');
-require('dotenv').config();
-const Order = require('./models/Order');
-const { publishOrder } = require('./rabbit/publisher');
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const connectDB = require("./config/db");
+const env = require("./config/env");
+const orderRoutes = require("./routes/order.routes");
+const offerRoutes = require("./routes/offer.routes");
+const cancellationRoutes = require("./routes/cancellation.routes");
+const adminRoutes = require("./routes/admin.routes");
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => {
-  console.log('Connected to MongoDB');
-}).catch((err) => {
-  console.error('MongoDB connection error:', err);
-});
+connectDB(env.mongodbUri);
 
-app.post('/api/order', async (req, res) => {
-  try {
-    const { customer, items, total } = req.body;
-    const order = new Order({ customer, items, total });
-    await order.save();
-    await publishOrder(order);
-    res.json({ message: 'Order saved to MongoDB and published to RabbitMQ!' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Failed to save order or publish message' });
-  }
-});
+// Mount order routes
+app.use("/api/orders", orderRoutes);
+app.use("/api/offers", offerRoutes);
+app.use("/api/cancellations", cancellationRoutes);
+app.use("/api/admin", adminRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = env.port || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
