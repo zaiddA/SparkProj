@@ -1,0 +1,65 @@
+[
+    {
+        "customer_id": "C001",
+        "name": "Ravi Sharma",
+        "latitude": 28.62,
+        "longitude": 77.21,
+        "past_purchases": ["Electronics", "Smart Home"],
+        "is_deal_seeker": false,
+        "has_active_delivery_nearby": true
+    },
+    {
+        "customer_id": "C002",
+        "name": "Priya Singh",
+        "latitude": 28.58,
+        "longitude": 77.25,
+        "past_purchases": ["Gaming", "Electronics"],
+        "is_deal_seeker": false,
+        "has_active_delivery_nearby": true
+    },
+    {
+        "customer_id": "C003",
+        "name": "Vikram Das",
+        "latitude": 28.70,
+        "longitude": 77.10,
+        "past_purchases": ["Apparel", "Home Goods"],
+        "is_deal_seeker": true,
+        "has_active_delivery_nearby": false
+    },
+    {
+        "customer_id": "C004",
+        "name": "Aarti Gupta",
+        "latitude": 28.50,
+        "longitude": 77.05,
+        "past_purchases": ["Books", "Electronics"],
+        "is_deal_seeker": false,
+        "has_active_delivery_nearby": true
+    },
+    {
+        "customer_id": "C005",
+        "name": "Sonia Verma",
+        "latitude": 28.65,
+        "longitude": 77.08,
+        "past_purchases": ["Electronics"],
+        "is_deal_seeker": true,
+        "has_active_delivery_nearby": true
+    },
+    {
+        "customer_id": "C006",
+        "name": "Rahul Kapoor",
+        "latitude": 28.68,
+        "longitude": 77.15,
+        "past_purchases": ["Sports", "Outdoors"],
+        "is_deal_seeker": false,
+        "has_active_delivery_nearby": false
+    },
+    {
+        "customer_id": "C007",
+        "name": "Anjali Mehta",
+        "latitude": 28.53,
+        "longitude": 77.28,
+        "past_purchases": ["Home Decor"],
+        "is_deal_seeker": false,
+        "has_active_delivery_nearby": false
+    }
+]
