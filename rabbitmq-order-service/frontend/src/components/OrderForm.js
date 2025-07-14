@@ -53,8 +53,13 @@ function getEligibleCustomers(warehouse) {
   return mockData[warehouse] || [];
 }
 
+// 1. Add Walmart blue and gray color constants
+const WALMART_BLUE = '#0071dc';
+const WALMART_GRAY_BG = '#f2f2f2';
+const WALMART_GRAY_BORDER = '#e0e0e0';
+
 const getLikelihoodColor = (likelihood) => {
-  if (likelihood >= 80) return '#2e7d32'; // dark green for high likelihood
+  if (likelihood >= 80) return WALMART_BLUE; // Walmart blue for high likelihood
   if (likelihood >= 60) return '#388e3c'; // medium green
   if (likelihood >= 40) return '#f57c00'; // orange for medium
   if (likelihood >= 20) return '#f57c00'; // orange for low-medium
@@ -134,7 +139,7 @@ const OrderForm = () => {
       width: '100%',
       minHeight: '100vh',
       p: { xs: 3, md: 6 },
-      bgcolor: '#f8f9fa',
+      bgcolor: WALMART_GRAY_BG,
       display: 'flex',
       flexDirection: 'column',
     }}>
@@ -180,7 +185,7 @@ const OrderForm = () => {
               onChange={handleChange} 
               fullWidth 
               variant="outlined"
-              sx={{ bgcolor: 'white' }}
+              sx={{ bgcolor: 'white', fontSize: '1.1rem', '& .MuiOutlinedInput-root': { '& fieldset': { borderRadius: 2 } } }}
             />
             
             <FormControl fullWidth>
@@ -190,7 +195,7 @@ const OrderForm = () => {
                 value={form.warehouse} 
                 label="Warehouse Location" 
                 onChange={handleChange}
-                sx={{ bgcolor: 'white' }}
+                sx={{ bgcolor: 'white', fontSize: '1.1rem', '& .MuiOutlinedInput-root': { '& fieldset': { borderRadius: 2 } } }}
               >
                 {warehouseOptions.map((opt) => (
                   <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
@@ -211,7 +216,7 @@ const OrderForm = () => {
                 value={itemInput.name} 
                 onChange={handleItemInputChange} 
                 size="small" 
-                sx={{ bgcolor: 'white', flex: 1 }}
+                sx={{ bgcolor: 'white', flex: 1, fontSize: '1.1rem', '& .MuiOutlinedInput-root': { '& fieldset': { borderRadius: 2 } } }}
               />
               <TextField 
                 label="Price (Rs.)" 
@@ -220,21 +225,21 @@ const OrderForm = () => {
                 onChange={handleItemInputChange} 
                 size="small" 
                 type="number" 
-                sx={{ bgcolor: 'white', minWidth: 120 }}
+                sx={{ bgcolor: 'white', minWidth: 120, fontSize: '1.1rem', '& .MuiOutlinedInput-root': { '& fieldset': { borderRadius: 2 } } }}
               />
               <Button 
                 variant="contained" 
                 color="primary" 
                 onClick={handleAddItem} 
                 startIcon={<AddIcon />}
-                sx={{ minWidth: 120 }}
+                sx={{ minWidth: 120, bgcolor: WALMART_BLUE, color: 'white', fontWeight: 700, borderRadius: 2, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', '&:hover': { bgcolor: '#005cb2' } }}
               >
                 Add Item
               </Button>
             </Stack>
 
             {items.length > 0 && (
-              <TableContainer component={Paper} sx={{ mt: 2, bgcolor: 'white' }}>
+              <TableContainer component={Paper} sx={{ mt: 2, bgcolor: 'white', borderRadius: 3, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', border: `1px solid ${WALMART_GRAY_BORDER}` }}>
                 <Table size="small">
                   <TableHead>
                     <TableRow sx={{ bgcolor: '#f5f5f5' }}>
@@ -245,7 +250,7 @@ const OrderForm = () => {
                   </TableHead>
                   <TableBody>
                     {items.map((item, idx) => (
-                      <TableRow key={idx} sx={{ '&:hover': { bgcolor: '#fafafa' } }}>
+                      <TableRow key={idx} sx={{ '&:hover': { bgcolor: WALMART_GRAY_BG } }}>
                         <TableCell>{item.name}</TableCell>
                         <TableCell>₹{item.price}</TableCell>
                         <TableCell align="center">
@@ -301,7 +306,13 @@ const OrderForm = () => {
               sx={{ 
                 py: 1.5, 
                 fontSize: '1.1rem',
-                fontWeight: 600
+                fontWeight: 600,
+                bgcolor: WALMART_BLUE,
+                color: 'white',
+                fontWeight: 700,
+                borderRadius: 2,
+                boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                '&:hover': { bgcolor: '#005cb2' }
               }}
             >
               Simulate Cancelled Order
@@ -323,6 +334,7 @@ const OrderForm = () => {
                   fontSize: 16, 
                   bgcolor: '#e3f2fd', 
                   color: '#0d3559',
+                  borderRadius: 2,
                   '& .MuiAlert-message': {
                     display: 'flex',
                     alignItems: 'center',
@@ -343,7 +355,7 @@ const OrderForm = () => {
               <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
                 Eligible Customers for Reallocation
               </Typography>
-              <TableContainer component={Paper} sx={{ bgcolor: 'white' }}>
+              <TableContainer component={Paper} sx={{ bgcolor: 'white', borderRadius: 3, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', border: `1px solid ${WALMART_GRAY_BORDER}` }}>
                 <Table size="small">
                   <TableHead>
                     <TableRow sx={{ bgcolor: '#f5f5f5' }}>
@@ -358,7 +370,7 @@ const OrderForm = () => {
                       .sort((a, b) => b.likelihood - a.likelihood)
                       .slice(0, 7)
                       .map((c, idx) => (
-                        <TableRow key={idx} sx={{ '&:hover': { bgcolor: '#fafafa' } }}>
+                        <TableRow key={idx} sx={{ '&:hover': { bgcolor: WALMART_GRAY_BG } }}>
                           <TableCell>{c.name}</TableCell>
                           <TableCell>{c.distance}</TableCell>
                           <TableCell>
